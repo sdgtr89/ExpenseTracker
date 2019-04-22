@@ -1,0 +1,17 @@
+<div>
+  <h2 *ngIf="!expenseInfo || expenseInfo.id === undefined">Add record</h2>
+  <h2 *ngIf="expenseInfo && expenseInfo.id !== undefined">Update record (ID: )</h2>
+  <form>
+      <div class="form-group">
+          <label for="date-input">Expense date:</label>
+          <input type="date" id="date-input" ngModel="expenseInfo.date" class="form-control" />
+      </div>
+      <div class="form-group">
+          <label for="distance-input">Amount (m)</label>
+          <input type="number" id="distance-input" ngModel="expenseInfo.amount" class="form-control" />
+      </div>
+
+      <button type="button" class="btn btn-primary" (click)="addOrUpdateExpenseRecord($event);">Save</button>
+
+  </form>
+ </div>
