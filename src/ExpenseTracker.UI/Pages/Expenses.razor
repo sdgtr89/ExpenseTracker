@@ -1,0 +1,73 @@
+﻿@page "/expenses"
+@inject ExpenseHttpClient _expenseClient
+@inject ExpenseTypeHttpClient _expenseTypeClient
+
+<h2>All Expenses</h2>
+
+<AddExpenseComponent OnExpenseAdded="OnExpenseAddedHandler" ExpenseTypesList="_expenseTypesList" />
+<ExpenseTypeModal OnExpenseTypeAdded="OnExpenseTypeAddedHandler" />
+    
+<br />
+<ExpensesList DeleteExpenseEvent="OnExpenseDeletedHandler" ExpenseList="_expensesList" ResetFilterEvent="OnFilterHandler"/>
+
+
+
+@code {
+    private ExpensesListModel _expensesList;
+    private ExpenseTypesListModel _expenseTypesList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _expensesList = new();
+        _expenseTypesList = new();
+        await FetchExpenses();
+        await FetchExpenseTypes();
+    }
+
+    //Event Handlers 
+
+    private async Task OnExpenseAddedHandler(ExpenseModel expenseToAdd)
+    {
+        if (expenseToAdd is not null)
+        {
+            await _expenseClient.Post(expenseToAdd);
+            await FetchExpenses();
+        }
+    }
+
+    private async Task OnExpenseDeletedHandler(int id)
+    {
+        if (id > 0)
+        {
+            await _expenseClient.Delete(id);
+            await FetchExpenses();
+        }
+    }
+
+    private async Task OnExpenseTypeAddedHandler(ExpenseTypeModel expenseTypeToAdd)
+    {
+        if (expenseTypeToAdd is not null)
+        {
+            await _expenseTypeClient.Post(expenseTypeToAdd);
+            await FetchExpenseTypes();
+        }
+    }
+
+    private async Task OnFilterHandler()
+    {
+        await FetchExpenses();
+    }
+
+    //Data Fetching
+
+    private async Task FetchExpenses()
+    {
+        _expensesList = await _expenseClient.GetAll();
+    }
+
+    private async Task FetchExpenseTypes()
+    {
+        _expenseTypesList = await _expenseTypeClient.GetAll();
+    }
+}
+

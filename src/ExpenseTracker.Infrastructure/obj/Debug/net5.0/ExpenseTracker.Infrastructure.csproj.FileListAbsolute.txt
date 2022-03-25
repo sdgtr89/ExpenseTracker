@@ -1,0 +1,17 @@
+C:\Users\Steve\source\repos\ExpenseTracker\src\ExpenseTracker.Infrastructure\bin\Debug\net5.0\ExpenseTracker.Infrastructure.deps.json
+C:\Users\Steve\source\repos\ExpenseTracker\src\ExpenseTracker.Infrastructure\bin\Debug\net5.0\ExpenseTracker.Infrastructure.dll
+C:\Users\Steve\source\repos\ExpenseTracker\src\ExpenseTracker.Infrastructure\bin\Debug\net5.0\ref\ExpenseTracker.Infrastructure.dll
+C:\Users\Steve\source\repos\ExpenseTracker\src\ExpenseTracker.Infrastructure\bin\Debug\net5.0\ExpenseTracker.Infrastructure.pdb
+C:\Users\Steve\source\repos\ExpenseTracker\src\ExpenseTracker.Infrastructure\bin\Debug\net5.0\ExpenseTracker.Application.dll
+C:\Users\Steve\source\repos\ExpenseTracker\src\ExpenseTracker.Infrastructure\bin\Debug\net5.0\ExpenseTracker.Domain.dll
+C:\Users\Steve\source\repos\ExpenseTracker\src\ExpenseTracker.Infrastructure\bin\Debug\net5.0\ExpenseTracker.Application.pdb
+C:\Users\Steve\source\repos\ExpenseTracker\src\ExpenseTracker.Infrastructure\bin\Debug\net5.0\ExpenseTracker.Domain.pdb
+C:\Users\Steve\source\repos\ExpenseTracker\src\ExpenseTracker.Infrastructure\obj\Debug\net5.0\ExpenseTracker.Infrastructure.csprojAssemblyReference.cache
+C:\Users\Steve\source\repos\ExpenseTracker\src\ExpenseTracker.Infrastructure\obj\Debug\net5.0\ExpenseTracker.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Steve\source\repos\ExpenseTracker\src\ExpenseTracker.Infrastructure\obj\Debug\net5.0\ExpenseTracker.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\Steve\source\repos\ExpenseTracker\src\ExpenseTracker.Infrastructure\obj\Debug\net5.0\ExpenseTracker.Infrastructure.AssemblyInfo.cs
+C:\Users\Steve\source\repos\ExpenseTracker\src\ExpenseTracker.Infrastructure\obj\Debug\net5.0\ExpenseTracker.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\Steve\source\repos\ExpenseTracker\src\ExpenseTracker.Infrastructure\obj\Debug\net5.0\ExpenseTracker.Infrastructure.csproj.CopyComplete
+C:\Users\Steve\source\repos\ExpenseTracker\src\ExpenseTracker.Infrastructure\obj\Debug\net5.0\ExpenseTracker.Infrastructure.dll
+C:\Users\Steve\source\repos\ExpenseTracker\src\ExpenseTracker.Infrastructure\obj\Debug\net5.0\ref\ExpenseTracker.Infrastructure.dll
+C:\Users\Steve\source\repos\ExpenseTracker\src\ExpenseTracker.Infrastructure\obj\Debug\net5.0\ExpenseTracker.Infrastructure.pdb

@@ -1,0 +1,70 @@
+﻿
+       
+<div>
+    <BSButton Color="Color.Primary" @onclick="@OnToggle">Add Expense</BSButton>
+    <BSModal @ref="_verticallyCentered" IsCentered="true">
+        <BSModalHeader OnClick="@OnToggle">            
+            <h3 class="text-center">Add Expense</h3>
+        </BSModalHeader>
+            <BSModalBody>
+                <EditForm Model="_expenseToAdd">
+                    <InputNumber @bind-Value="_expenseToAdd.Amount" class="form-control"/>
+                    <InputDate @bind-Value="_expenseToAdd.Date" class="form-control"/>
+                    <InputSelect @bind-Value="_expenseToAdd.ExpenseTypeId" class="form-control">
+                        @foreach (var expenseType in ExpenseTypesList.ExpenseTypes)
+                        {
+                            <option value="@expenseType.Id">@expenseType.Name</option>
+                        }
+                    </InputSelect>                       
+                </EditForm>
+            </BSModalBody>
+            <BSModalFooter>
+                <BSButton Color="Color.Secondary" Class="form-control" OnClick="@OnToggle">Close</BSButton>
+                <BSButton Color="Color.Primary" Class="form-control" OnClick="(e) => AddExpense(e)">Add Expense</BSButton>
+            </BSModalFooter>
+    </BSModal>
+</div>
+
+
+@code {
+    [Parameter]
+    public EventCallback<ExpenseModel> OnExpenseAdded { get; set; }
+    [Parameter]
+    public ExpenseTypesListModel ExpenseTypesList { get; set; }
+
+    private ExpenseModel _expenseToAdd;
+    private BSModal _verticallyCentered;
+
+    protected override void OnInitialized()
+    {
+        InitializeModel();
+    }
+
+    private async Task AddExpense(MouseEventArgs e)
+    {
+        await OnExpenseAdded.InvokeAsync(_expenseToAdd);
+        OnToggle(e);
+        InitializeModel();
+    }
+
+    private void InitializeModel()
+    {
+        _expenseToAdd = new()
+        {
+            Date = DateTime.Now,
+            ExpenseTypeId = 1
+        };
+    }
+
+    private string GetExpenseTypeName()
+    {
+        return ExpenseTypesList.ExpenseTypes
+            .SingleOrDefault(et => et.Id == _expenseToAdd.ExpenseTypeId)
+            .Name;
+    }
+
+    void OnToggle(MouseEventArgs e)
+    {
+        _verticallyCentered.Toggle();
+    }
+}

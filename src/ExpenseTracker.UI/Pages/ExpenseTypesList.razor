@@ -1,0 +1,38 @@
+﻿@inject ExpenseTypeHttpClient _expenseTypeClient
+
+<div>
+    @if (!string.IsNullOrWhiteSpace(errors))
+    {
+        <div class="h2">@errors</div>
+    }
+    else if (expenseTypes is null)
+    {
+        <div class="h2">Loading....</div>
+    }
+    else
+    {
+        @foreach (var expenseType in expenseTypes.ExpenseTypes)
+        {
+            <p>Name: @expenseType.Name</p>
+        }
+    }
+</div>
+
+@code {
+    ExpenseTypesListModel expenseTypes;
+    string errors;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            expenseTypes = await _expenseTypeClient.GetAll();
+        }
+        catch (Exception ex)
+        {
+
+            errors = $"An error has occurred fetching data: {ex.Message}";
+        }
+
+    }
+}

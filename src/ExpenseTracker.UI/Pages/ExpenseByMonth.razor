@@ -1,0 +1,18 @@
+﻿<h3>ExpenseByMonth</h3>
+
+@code {
+    private ExpensesListModel GetExpensesByMonth(int month)
+    {
+        var expenseList = new ExpensesListModel();
+        if(month >= 12 || month <= 1)
+        {
+            return null;
+        }
+        else
+        {
+            expenseList.Expenses = expenseList.Expenses.Where(e => e.Date.Month == month).ToList();
+        }
+
+        return expenseList;
+    }
+}

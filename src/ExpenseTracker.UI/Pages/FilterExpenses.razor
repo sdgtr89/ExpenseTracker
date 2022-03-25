@@ -1,0 +1,81 @@
+﻿
+<BSButton Color="Color.Primary" OnClick="Toggle">@_toggleButtonLabel</BSButton>
+<BSCollapse IsOpen="@_isOpen">
+    <BSCard CardType="CardType.Card">
+        <BSCard CardType="CardType.Body">
+            <EditForm Model="_filterModel">
+                Month
+                <InputSelect @bind-Value="_filterModel.Month" class="form-control">
+                    <option selected value=0>--All--</option>
+                    @foreach (var month in _months)
+                    {
+                        if (month != "")
+                        {
+                            var monthValue = DateTime.ParseExact(month, "MMMM", CultureInfo.CurrentCulture).Month;
+                            <option value=@monthValue>@month</option>
+                        }
+                    }
+                </InputSelect>               
+                <BSCard CardType="CardType.Footer">
+                    <BSButton Color="Color.Primary" Class="form-control" OnClick="(e) => OnFiltering(e)">Filter</BSButton>
+                    <BSButton Color="Color.Secondary" Class="form-control" OnClick="(e) => OnReset(e)">Reset</BSButton>
+                </BSCard>                
+            </EditForm>
+        </BSCard>
+    </BSCard>
+</BSCollapse>
+
+@code {
+    [Parameter]
+    public EventCallback<ExpenseFilterModel> OnFilteringEvent { get; set; }
+    [Parameter]
+    public EventCallback<EventArgs> OnResetFiltersEvent { get; set; }
+    private bool _isOpen { get; set; }
+    private List<string> _months;
+    private ExpenseFilterModel _filterModel;
+    private string _toggleButtonLabel;
+
+    protected override void OnInitialized()
+    {
+        _isOpen = false;
+        SetToggleButtonLabel();
+        _filterModel = new();
+        _months = new();
+        GetMonths();
+    }
+
+    private void Toggle(MouseEventArgs e)
+    {
+        _isOpen = !_isOpen;
+        StateHasChanged();
+        SetToggleButtonLabel();
+    }
+
+    private void GetMonths()
+    {
+        _months = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames.ToList();
+    }
+
+    private async Task OnFiltering(EventArgs e)
+    {
+        await OnFilteringEvent.InvokeAsync(_filterModel);
+    }
+
+    private void SetToggleButtonLabel()
+    {
+        if(!_isOpen)
+        {
+            _toggleButtonLabel = "Show Filters";
+        }
+        else
+        {
+            _toggleButtonLabel = "Hide Filters";
+        }
+    }
+
+    private async Task OnReset(EventArgs e)
+    {
+        await OnResetFiltersEvent.InvokeAsync(e);
+        _filterModel = new();
+    }
+}

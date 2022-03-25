@@ -1,0 +1,94 @@
+﻿
+<div>
+    <h6>Total: $@_totalExpenses.ToString("F2")</h6>
+
+    <FilterExpenses OnFilteringEvent="OnFilteringEventHandler" OnResetFiltersEvent="OnResetFiltersEventHandler"/>
+
+    <div class="card-columns">
+        <Virtualize Items="_filteredExpenseList.Expenses" Context="expense">
+            <BSCard @key="expense.Id">
+                <BSCard CardType="CardType.Body">
+                    <BSCard CardType="CardType.Title">
+                        <BSBadge Color="Color.Light">Amount: $@expense.Amount.ToString("F2")</BSBadge>
+                    </BSCard>
+                    <BSCard CardType="CardType.Subtitle">
+                        <BSBadge Color="Color.Light">@expense.ExpsenseType.Name</BSBadge>
+                    </BSCard>
+                    <BSCard CardType="CardType.Text">
+                        <BSBadge Color="Color.Light">@expense.Date.ToString("D")</BSBadge>
+                    </BSCard>
+                    <BSButton ButtonType="ButtonType.Button" Class="btn-danger" @onclick="() => DeleteExpense(expense.Id)">Delete</BSButton>
+                </BSCard>
+            </BSCard>
+        </Virtualize>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public ExpensesListModel ExpenseList { get; set; }
+    [Parameter]
+    public EventCallback<int> DeleteExpenseEvent { get; set; }
+    [Parameter]
+    public EventCallback ResetFilterEvent { get; set; }
+
+
+    private ExpensesListModel _filteredExpenseList;
+    private decimal _totalExpenses;
+
+    protected override void OnParametersSet()
+    {
+        _filteredExpenseList = new();
+        _filteredExpenseList = ExpenseList;
+        _totalExpenses = CalculateTotalExpenses();
+    }
+
+    private bool DateFunc(ExpenseModel expense, int month)
+    {
+        if(month != 0)
+        {
+            return expense.Date.Month == month;
+        }
+        else
+        {
+            return expense.Date.Month > month;
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+    }
+
+    private decimal CalculateTotalExpenses()
+    {
+        return _filteredExpenseList.Expenses.Sum(e => e.Amount);
+    }
+
+    private async Task DeleteExpense(int id)
+    {
+        await DeleteExpenseEvent.InvokeAsync(id);
+    }
+
+    private void OnFilteringEventHandler(ExpenseFilterModel filterModel)
+    {
+        Filter(filterModel);
+    }
+
+    private void Filter(ExpenseFilterModel filterModel)
+    {
+        if (filterModel.Month > 0)
+        {
+            Func<ExpenseModel, bool> predicate = e =>
+            e.Date.Month == filterModel.Month;
+
+            _filteredExpenseList.Expenses = _filteredExpenseList.Expenses.Filter(predicate);
+            _totalExpenses = CalculateTotalExpenses();
+        }
+    }
+
+    private async Task OnResetFiltersEventHandler()
+    {
+        _filteredExpenseList = ExpenseList;
+        await ResetFilterEvent.InvokeAsync();
+    }
+}

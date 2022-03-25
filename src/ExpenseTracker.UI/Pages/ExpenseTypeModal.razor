@@ -1,0 +1,43 @@
+﻿
+<div>
+    <BSButton Color="Color.Primary" @onclick="@OnToggle">Add Expense Type</BSButton>
+    <BSModal @ref="_verticallyCentered" IsCentered="true">
+        <BSModalHeader OnClick="@OnToggle">
+            <h3 class="text-center">Add Expense Type</h3>
+        </BSModalHeader>
+        <BSModalBody>
+            <EditForm Model="_expenseTypeToAdd">
+                <InputText @bind-Value="_expenseTypeToAdd.Name" class="form-control" />
+            </EditForm>
+        </BSModalBody>
+        <BSModalFooter>
+            <BSButton Color="Color.Secondary" Class="form-control" OnClick="@OnToggle">Close</BSButton>
+            <BSButton Color="Color.Primary" Class="form-control" OnClick="(e) => AddExpenseType(e)">Add Expense Type</BSButton>
+        </BSModalFooter>
+    </BSModal>
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback<ExpenseTypeModel> OnExpenseTypeAdded { get; set; }
+
+    private ExpenseTypeModel _expenseTypeToAdd;
+    private BSModal _verticallyCentered;
+
+    protected override void OnInitialized()
+    {
+        _expenseTypeToAdd = new();
+    }
+
+    void OnToggle(MouseEventArgs e)
+    {
+        _verticallyCentered.Toggle();
+    }
+
+    private async Task AddExpenseType(MouseEventArgs e)
+    {
+        await OnExpenseTypeAdded.InvokeAsync(_expenseTypeToAdd);
+        OnToggle(e);
+        _expenseTypeToAdd = new();
+    }
+}
